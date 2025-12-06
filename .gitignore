@@ -1,0 +1,17 @@
+# Factorio save files and data
+data/saves/
+data/mods/
+data/script-output/
+data/temp/
+
+# Keep config templates but ignore actual credentials
+!data/config/
+data/config/rconpw
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+

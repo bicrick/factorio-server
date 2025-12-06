@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  factorio:
+    image: factoriotools/factorio:stable
+    container_name: factorio
+    restart: unless-stopped
+    ports:
+      - "34197:34197/udp"
+      - "27015:27015/tcp"  # RCON port (optional, for remote administration)
+    volumes:
+      - ./data:/factorio
+    environment:
+      # Server name shown in the server browser
+      - SAVE_NAME=factorio-save
+      # Generate a new map if no save exists
+      - GENERATE_NEW_SAVE=true
+      # Update mods on container start
+      - UPDATE_MODS_ON_START=true
+      # Load the latest save file
+      - LOAD_LATEST_SAVE=true
+    # Optional: limit resources
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 4G
+
