@@ -1,6 +1,7 @@
 # Factorio Server on GCP
 
-**Server Address:** `34.58.250.90:34197`
+**Server Address:** `34.58.250.90:34197`  
+**Version:** 2.0.72 (base game, no Space Age DLC)
 
 ## Quick Commands
 
@@ -38,12 +39,23 @@ gcloud compute ssh factorio-server --zone=us-central1-a --command="sudo docker l
 
 ### Restart Factorio Container
 ```bash
-gcloud compute ssh factorio-server --zone=us-central1-a --command="cd /opt/factorio && sudo docker-compose restart"
+gcloud compute ssh factorio-server --zone=us-central1-a --command="sudo docker restart factorio"
 ```
 
-### Update Factorio to Latest Version
+### Update Factorio Version
+To change versions, stop and recreate the container (replace `2.0.72` with desired version):
 ```bash
-gcloud compute ssh factorio-server --zone=us-central1-a --command="cd /opt/factorio && sudo docker-compose pull && sudo docker-compose up -d"
+gcloud compute ssh factorio-server --zone=us-central1-a --command="sudo docker stop factorio && sudo docker rm factorio && sudo docker run -d \
+  --name factorio \
+  --restart=unless-stopped \
+  -p 34197:34197/udp \
+  -p 27015:27015/tcp \
+  -v /opt/factorio/data:/factorio \
+  -e SAVE_NAME=factorio-save \
+  -e GENERATE_NEW_SAVE=true \
+  -e LOAD_LATEST_SAVE=true \
+  -e DLC_SPACE_AGE=false \
+  factoriotools/factorio:2.0.72"
 ```
 
 ## Notes
@@ -52,4 +64,4 @@ gcloud compute ssh factorio-server --zone=us-central1-a --command="cd /opt/facto
 - Server config is at `/opt/factorio/data/config/server-settings.json` on the VM.
 - Saves are at `/opt/factorio/data/saves/` on the VM.
 - Cost is approximately $13/month if running 24/7. Stop when not playing to save money.
-
+- `DLC_SPACE_AGE=false` disables Space Age DLC mods (elevated-rails, quality, space-age).
