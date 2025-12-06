@@ -1,6 +1,6 @@
 # Factorio Server on GCP
 
-**Server Address:** `34.58.250.90:34197`  
+**Server Address:** `35.193.140.235:34197`  
 **Version:** 2.0.72 (base game, no Space Age DLC)
 
 ## Quick Commands
